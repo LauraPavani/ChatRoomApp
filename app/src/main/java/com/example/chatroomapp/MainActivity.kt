@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,13 +22,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+            val authViewModel: AuthViewModel = viewModel()
             ChatRoomAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavigationGraph(navController = navController)
+                    NavigationGraph(navController = navController, authViewModel = authViewModel)
                 }
             }
         }
@@ -35,7 +37,8 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun NavigationGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
     NavHost(
         navController = navController,
@@ -43,6 +46,7 @@ fun NavigationGraph(
     ) {
         composable(Screen.SignupScreen.route) {
             SignUpScreen(
+                authViewModel = authViewModel,
                 onNavigateToLogin = { navController.navigate(Screen.LoginScreen.route) }
             )
         }

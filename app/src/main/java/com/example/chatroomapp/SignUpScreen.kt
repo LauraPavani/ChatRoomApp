@@ -23,10 +23,12 @@ import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
+    authViewModel: AuthViewModel = viewModel(),
     onNavigateToLogin: () -> Unit
 ){
     var email by remember { mutableStateOf("") }
@@ -76,7 +78,7 @@ fun SignUpScreen(
         )
         Button(
             onClick = {
-            //add the signup function
+                authViewModel.signUp(email, password,firstName,lastName)
                 email = ""
                 password = ""
                 firstName = ""
