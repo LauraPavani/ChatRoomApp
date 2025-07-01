@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
-
+    onNavigateToLogin: () -> Unit
 ){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -90,7 +90,7 @@ fun SignUpScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text("Already have an account? Sign in.",
-            modifier = Modifier.clickable { /*add navigation*/ }
+            modifier = Modifier.clickable { onNavigateToLogin() }
                 )
             }
     }
@@ -98,5 +98,5 @@ fun SignUpScreen(
     @Preview
     @Composable
     fun SignupPreview() {
-        SignUpScreen()
+        SignUpScreen(onNavigateToLogin = {} )
     }
