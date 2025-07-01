@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,12 +30,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun LoginScreen(
     authViewModel: AuthViewModel = viewModel(),
-    onNavigateToSignUp:() -> Unit
+    onNavigateToSignUp:() -> Unit,
+    onSignInSuccess:() -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember {
         mutableStateOf("")
     }
+    val result by authViewModel.authResult.observeAsState()
+
+
 
     Column(
         modifier = Modifier
@@ -62,7 +67,19 @@ fun LoginScreen(
         )
         Button(
             onClick = {
+                authViewModel.login(email, password)
+                when (result) {
+                    is Result.Success->{
+                        onSignInSuccess()
+                    }
+                    is Result.Error ->{
 
+                    }
+
+                    else -> {
+
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,5 +97,7 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginPreview() {
-    LoginScreen(onNavigateToSignUp = {})
+    LoginScreen(
+        onNavigateToSignUp = {},
+        onSignInSuccess = {})
 }
