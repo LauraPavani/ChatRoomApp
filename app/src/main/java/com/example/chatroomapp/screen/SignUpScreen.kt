@@ -1,4 +1,4 @@
-package com.example.chatroomapp
+package com.example.chatroomapp.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,32 +14,27 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.chatroomapp.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(
+fun SignUpScreen(
     authViewModel: AuthViewModel = viewModel(),
-    onNavigateToSignUp:() -> Unit,
-    onSignInSuccess:() -> Unit
-) {
+    onNavigateToLogin: () -> Unit
+){
     var email by remember { mutableStateOf("") }
-    var password by remember {
-        mutableStateOf("")
-    }
-    val result by authViewModel.authResult.observeAsState()
-
-
+    var password by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -65,39 +60,45 @@ fun LoginScreen(
                 .padding(8.dp),
             visualTransformation = PasswordVisualTransformation()
         )
+        OutlinedTextField(
+            value = firstName,
+            onValueChange = { firstName = it },
+            label = { Text("First Name") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+        OutlinedTextField(
+            value = lastName,
+            onValueChange = { lastName = it },
+            label = { Text("Last Name") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
         Button(
             onClick = {
-                authViewModel.login(email, password)
-                when (result) {
-                    is Result.Success->{
-                        onSignInSuccess()
-                    }
-                    is Result.Error ->{
-
-                    }
-
-                    else -> {
-
-                    }
-                }
+                authViewModel.signUp(email, password,firstName,lastName)
+                email = ""
+                password = ""
+                firstName = ""
+                lastName = ""
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text("Login")
+            Text("Sign Up")
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Don't have an account? Sign up.",
-            modifier = Modifier.clickable { onNavigateToSignUp() }
-        )
+        Text("Already have an account? Sign in.",
+            modifier = Modifier.clickable { onNavigateToLogin() }
+                )
+            }
     }
-}
 
-@Preview
-@Composable
-fun LoginPreview() {
-    LoginScreen(
-        onNavigateToSignUp = {},
-        onSignInSuccess = {})
-}
+    @Preview
+    @Composable
+    fun SignupPreview() {
+        SignUpScreen(onNavigateToLogin = {} )
+    }

@@ -1,4 +1,4 @@
-package com.example.chatroomapp
+package com.example.chatroomapp.data
 
 data class User(
     val firstName: String = "",

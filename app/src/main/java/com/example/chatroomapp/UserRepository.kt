@@ -1,5 +1,7 @@
 package com.example.chatroomapp
 
+import com.example.chatroomapp.data.Result
+import com.example.chatroomapp.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
