@@ -15,6 +15,7 @@ class RoomViewModel : ViewModel() {
     private val _rooms = MutableLiveData<List<Room>>()
     val rooms: LiveData<List<Room>> get() = _rooms
     private val roomRepository: RoomRepository
+
     init {
         roomRepository = RoomRepository(Injection.instance())
         loadRooms()
@@ -23,6 +24,7 @@ class RoomViewModel : ViewModel() {
     fun createRoom(name: String) {
         viewModelScope.launch {
             roomRepository.createRoom(name)
+            loadRooms() // refresh the list
         }
     }
 
