@@ -69,18 +69,6 @@ fun LoginScreen(
         Button(
             onClick = {
                 authViewModel.login(email, password)
-                when (result) {
-                    is Result.Success ->{
-                        onSignInSuccess()
-                    }
-                    is Result.Error ->{
-
-                    }
-
-                    else -> {
-
-                    }
-                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,12 +81,26 @@ fun LoginScreen(
             modifier = Modifier.clickable { onNavigateToSignUp() }
         )
     }
+    when (result) {
+        is Result.Success -> {
+            onSignInSuccess()
+        }
+        is Result.Error ->{
+
+        }
+
+        else -> {
+
+        }
+    }
 }
 
 @Preview
 @Composable
 fun LoginPreview() {
+
     LoginScreen(
+
         onNavigateToSignUp = {},
         onSignInSuccess = {})
 }

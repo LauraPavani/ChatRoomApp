@@ -32,7 +32,7 @@ class RoomViewModel : ViewModel() {
         viewModelScope.launch {
             when (val result = roomRepository.getRooms()) {
                 is Result.Success -> _rooms.value = result.data
-                is Error -> {
+                is Result.Error ->{
 
                 }
             }
