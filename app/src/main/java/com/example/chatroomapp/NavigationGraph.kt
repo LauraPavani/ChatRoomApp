@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.chatroomapp.screen.ChatRoomListScreen
+import com.example.chatroomapp.screen.ChatScreen
 import com.example.chatroomapp.screen.LoginScreen
 import com.example.chatroomapp.screen.SignUpScreen
 import com.example.chatroomapp.viewmodel.AuthViewModel
@@ -42,7 +43,13 @@ fun NavigationGraph(
             }
         }
         composable(Screen.ChatRoomsScreen.route) {
-            ChatRoomListScreen ( )
+            ChatRoomListScreen {navController.navigate("${Screen.ChatScreen.route}/${it.id}" )
+            }
+        }
+        composable("${Screen.ChatScreen.route}/{roomId}") {
+            val roomId: String = it
+                .arguments?.getString("roomId") ?: ""
+            ChatScreen(roomId = roomId)
         }
     }
 }

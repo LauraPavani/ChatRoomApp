@@ -35,6 +35,8 @@ fun ChatScreen(  roomId: String) {
             modifier = Modifier.weight(1f)
         ) {
 
+
+            }
         }
 
         // Chat input field and send icon
@@ -67,7 +69,7 @@ fun ChatScreen(  roomId: String) {
             }
         }
     }
-}
+
 
 @Preview
 @Composable

@@ -28,7 +28,11 @@ class UserRepository(private val auth: FirebaseAuth,
         try {
             auth.signInWithEmailAndPassword(email, password).await()
             Result.Success(true)
-        } catch (e: Exception) {
+    } catch (e: Exception) {
             Result.Error(e)
         }
+    suspend fun getUserByEmail(email: String): User? {
+        val snapshot = firestore.collection("users").document(email).get().await()
+        return snapshot.toObject(User::class.java)
+    }
 }

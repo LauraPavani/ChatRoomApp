@@ -27,10 +27,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.chatroomapp.data.Room
 import com.example.chatroomapp.viewmodel.RoomViewModel
 
 @Composable
-fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
+fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel(),
+                       onJoinClicked: (Room) -> Unit
 ){
     val rooms by roomViewModel.rooms.observeAsState(emptyList() )
     var showDialog by remember{ mutableStateOf(false)}
@@ -47,7 +49,7 @@ fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
         // Display a list of chat rooms
         LazyColumn {
             items(rooms){room ->
-                RoomItem(room)
+                RoomItem(room, onJoinClicked = {onJoinClicked(room)})
             }
         }
 
@@ -109,5 +111,6 @@ fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
 @Preview(showBackground = true)
 @Composable
 fun ChatRoomListScreenPreview() {
-    ChatRoomListScreen()
+    ChatRoomListScreen(    onJoinClicked = {}
+    )
 }
