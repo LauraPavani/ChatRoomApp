@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chatroomapp.viewmodel.RoomViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
 ){
@@ -48,7 +47,7 @@ fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
         // Display a list of chat rooms
         LazyColumn {
             items(rooms){room ->
-                RoomItem(room = room)
+                RoomItem(room)
             }
         }
 
@@ -65,7 +64,8 @@ fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
         }
 
         if (showDialog){
-            AlertDialog( onDismissRequest = { showDialog = true },
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
                 title = { Text("Create a new room") },
                 text={
                     OutlinedTextField(
@@ -86,6 +86,8 @@ fun ChatRoomListScreen(roomViewModel: RoomViewModel = viewModel()
                         Button(
                             onClick = {
                                 if (name.isNotBlank()) {
+                                    roomViewModel.createRoom(name)
+                                    name = ""
                                     showDialog = false
 
                                 }
