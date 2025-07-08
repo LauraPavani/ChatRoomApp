@@ -43,39 +43,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Composable
-fun NavigationGraph(
-    navController: NavHostController,
-    authViewModel: AuthViewModel
-) {
-    val user = FirebaseAuth.getInstance().currentUser
-    println("🔥 Current user: ${user?.email ?: "No user logged in"}")
-
-    val startDestination = if (user != null) {
-        Screen.ChatRoomsScreen.route
-    } else {
-        Screen.SignupScreen.route
-    }
-    NavHost(
-        navController = navController,
-        startDestination = Screen.SignupScreen.route
-    ) {
-        composable(Screen.SignupScreen.route) {
-            SignUpScreen(
-                authViewModel = authViewModel,
-                onNavigateToLogin = { navController.navigate(Screen.LoginScreen.route) }
-            )
-        }
-        composable(Screen.LoginScreen.route) {
-            LoginScreen(
-                authViewModel = authViewModel,
-                onNavigateToSignUp = { navController.navigate(Screen.SignupScreen.route) }
-            ){
-                navController.navigate(Screen.ChatRoomsScreen.route)
-            }
-        }
-        composable(Screen.ChatRoomsScreen.route) {
-            ChatRoomListScreen ( )
-        }
-    }
-}
