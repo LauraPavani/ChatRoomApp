@@ -1,4 +1,4 @@
-package com.example.chatroomapp.screen
+package com.example.chatroomapp
 
 sealed class Screen (val route:String){
     object LoginScreen: Screen("loginscreen")

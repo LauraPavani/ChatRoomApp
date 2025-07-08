@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatroomapp.Injection
 import com.example.chatroomapp.data.Result
-import com.example.chatroomapp.UserRepository
+import com.example.chatroomapp.data.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 

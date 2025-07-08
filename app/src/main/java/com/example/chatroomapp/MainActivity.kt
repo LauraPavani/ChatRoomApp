@@ -15,12 +15,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.chatroomapp.screen.ChatRoomListScreen
 import com.example.chatroomapp.screen.LoginScreen
-import com.example.chatroomapp.screen.Screen
 import com.example.chatroomapp.screen.SignUpScreen
 import com.example.chatroomapp.ui.theme.ChatRoomAppTheme
 import com.example.chatroomapp.viewmodel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,6 +48,14 @@ fun NavigationGraph(
     navController: NavHostController,
     authViewModel: AuthViewModel
 ) {
+    val user = FirebaseAuth.getInstance().currentUser
+    println("🔥 Current user: ${user?.email ?: "No user logged in"}")
+
+    val startDestination = if (user != null) {
+        Screen.ChatRoomsScreen.route
+    } else {
+        Screen.SignupScreen.route
+    }
     NavHost(
         navController = navController,
         startDestination = Screen.SignupScreen.route

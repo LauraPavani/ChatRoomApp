@@ -1,4 +1,4 @@
-package com.example.chatroomapp
+package com.example.chatroomapp.data
 
 import com.example.chatroomapp.data.Result
 import com.example.chatroomapp.data.User
