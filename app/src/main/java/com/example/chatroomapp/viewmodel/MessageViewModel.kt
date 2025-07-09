@@ -15,10 +15,11 @@ import kotlinx.coroutines.launch
 class MessageViewModel : ViewModel() {
 
     private val messageRepository: MessageRepository
+    private val _roomId = MutableLiveData<String>()
     private val userRepository: UserRepository
     private val _messages = MutableLiveData<List<Message>>()
-    private var currentUser: User? = null
-
+    private val _currentUser = MutableLiveData<User>()
+    val currentUser: LiveData<User> get() = _currentUser
     val messages: LiveData<List<Message>> get() = _messages
     init {
         messageRepository = MessageRepository(Injection.instance())
@@ -31,7 +32,7 @@ class MessageViewModel : ViewModel() {
     private fun loadCurrentUser(){
         val email = FirebaseAuth.getInstance().currentUser?.email ?: return
         viewModelScope.launch{
-            currentUser = userRepository.getUserByEmail(email)
+            _currentUser.value = userRepository.getUserByEmail(email)
         }
     }
     fun loadMessage(roomId: String){
@@ -42,7 +43,7 @@ class MessageViewModel : ViewModel() {
         }
     }
     fun sendMessage(roomId: String, messageText: String){
-        val user = currentUser ?: return
+        val user = _currentUser.value ?: return
         val message = Message(
             text = messageText,
             senderId = FirebaseAuth.getInstance().currentUser?.uid.orEmpty(),
@@ -54,4 +55,9 @@ class MessageViewModel : ViewModel() {
             loadMessage(roomId)
         }
     }
+    fun setRoomId(roomId: String) {
+        _roomId.value = roomId
+        loadMessage(roomId)
+    }
+
 }
